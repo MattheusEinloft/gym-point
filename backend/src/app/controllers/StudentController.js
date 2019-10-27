@@ -2,6 +2,14 @@ import * as Yup from 'yup';
 import Student from '../models/Student';
 
 class StudentController {
+  async index(req, res) {
+    const students = await Student.findAll({
+      attributes: ['id', 'name', 'email', 'age', 'weight', 'height']
+    });
+
+    return res.json(students);
+  }
+
   async store(req, res) {
     const schema = Yup.object().shape({
       name: Yup.string().required(),
@@ -56,13 +64,25 @@ class StudentController {
 
     const student = await Student.findByPk(req.params.id);
 
+    /**
+     * Check if student exists
+     */
+    if (!student) {
+      return res.status(400).json({ error: 'Student does not exists' });
+    }
+
+    /**
+     * Check if email was informed and if is different than the actual email
+     */
     if (email && email !== student.email) {
-      const studentExists = await Student.findOne({
+      const studentEmailExists = await Student.findOne({
         where: { email }
       });
 
-      if (studentExists) {
-        return res.status(400).json({ error: 'Student already exists.' });
+      if (studentEmailExists) {
+        return res
+          .status(401)
+          .json({ error: 'Another student with this email already exists.' });
       }
     }
 
@@ -76,6 +96,21 @@ class StudentController {
       weight,
       height
     });
+  }
+
+  async delete(req, res) {
+    const student = await Student.findByPk(req.params.id);
+
+    /**
+     * Check if student exists
+     */
+    if (!student) {
+      return res.status(400).json({ error: 'Student does not exists' });
+    }
+
+    student.destroy();
+
+    return res.json(student);
   }
 }
 
