@@ -1,9 +1,11 @@
 import * as Yup from 'yup';
-import { addMonths, parseISO } from 'date-fns';
+import { addMonths, parseISO, format } from 'date-fns';
 
 import Student from '../models/Student';
 import Plan from '../models/Plan';
 import Enrollment from '../models/Enrollment';
+
+import Mail from '../../lib/Mail';
 
 class EnrollmentController {
   async index(req, res) {
@@ -39,9 +41,9 @@ class EnrollmentController {
 
     const { student_id, plan_id, start_date } = req.body;
 
-    const studentExists = await Student.findByPk(student_id);
+    const student = await Student.findByPk(student_id);
 
-    if (!studentExists) {
+    if (!student) {
       return res
         .status(400)
         .json({ error: 'Student with given ID does not exists' });
@@ -69,6 +71,19 @@ class EnrollmentController {
       start_date,
       end_date,
       price
+    });
+
+    // Send email to student (plan, end_date, price and welcome_message)
+    await Mail.sendMail({
+      to: `${student.name} <${student.email}>`,
+      subject: 'Matrícula realizada',
+      template: 'enroll',
+      context: {
+        student: student.name,
+        plan: plan.title,
+        end_date: format(end_date, "dd'/'MM'/'yyyy"),
+        price: `R$${price}`
+      }
     });
 
     return res.json(enrollment);
