@@ -6,6 +6,8 @@ import StudentController from './app/controllers/StudentController';
 import PlanController from './app/controllers/PlanController';
 import EnrollmentController from './app/controllers/EnrollmentController';
 import CheckinController from './app/controllers/CheckinController';
+import HelpOrderController from './app/controllers/HelpOrderController';
+import HelpRequestController from './app/controllers/HelpRequestController';
 
 import authMiddleware from './app/middlewares/auth';
 
@@ -17,11 +19,10 @@ routes.post('/sessions', SessionController.store);
 routes.get('/students/:id/checkins', CheckinController.index);
 routes.post('/students/:id/checkins', CheckinController.store);
 
-routes.use(authMiddleware);
+routes.get('/students/:id/help-orders', HelpRequestController.index);
+routes.post('/students/:id/help-orders', HelpRequestController.store);
 
-// Help Orders Routes (Student):
-//  - POST (Create help order with ID)
-//  - GET (List all help orders of a student)
+routes.use(authMiddleware);
 
 routes.get('/students', StudentController.index);
 routes.post('/students', StudentController.store);
@@ -38,8 +39,7 @@ routes.post('/enrollments', EnrollmentController.store);
 routes.put('/enrollments/:id', EnrollmentController.update);
 routes.delete('/enrollments/:id', EnrollmentController.delete);
 
-// Help Orders Routes (Admin):
-//  - Index (Listar pedidos sem resposta)
-//  - Post (Responder um pedido)
+routes.get('/help-orders', HelpOrderController.index);
+routes.post('/help-orders/:id/answer', HelpOrderController.store);
 
 export default routes;
