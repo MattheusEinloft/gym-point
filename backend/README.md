@@ -5,7 +5,7 @@ API REST desenvolvida em [Node.js](https://nodejs.org/), utilizando o framework 
 - Editor de código: [VSCode](https://code.visualstudio.com/)
 - Cliente PostgreSQL: [Postbird](https://electronjs.org/apps/postbird)
 - Cliente REST: [Insomnia](https://insomnia.rest/)
-- Virtualização de containers com [Docker](https://www.docker.com/)
+- Virtualização de containers: [Docker](https://www.docker.com/)
 - Servidor SMTP para teste de e-mails: [Mailtrap](https://mailtrap.io/)
 - Software de monitoramento de aplicações e rastreador de erros: [Sentry](https://sentry.io/)
 
