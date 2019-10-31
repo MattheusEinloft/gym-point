@@ -1,1 +1,2 @@
-# GymPoint
+# Gympoint
+O Gympoint é uma aplicação gerenciadora de academias, onde os alunos podem ser cadastrados, matriculados em planos da academia, fazer pedidos de auxílios (dicas de alimentação e treinos) e realizar check-in quando chegam à academia. Os administradores da aplicação podem, além de visualizar e controlar os dados dos alunos, gerenciar os planos, as matrículas e responder os pedidos de auxílios.
